@@ -4,7 +4,7 @@ import { Roles } from './Roles';
 @Entity()
 export class Menus extends BaseEntity{
     @PrimaryGeneratedColumn()
-    idMenu : number;
+    IdMenu : number;
     @Column()
     Nombre : string;
     @Column()
@@ -12,7 +12,7 @@ export class Menus extends BaseEntity{
     @Column()
     Link : string;
     @Column()
-    esHabilitado : boolean;
+    EsHabilitado : boolean;
     @OneToOne(() => Roles)
     @JoinColumn()
     RolesidRoles: Roles

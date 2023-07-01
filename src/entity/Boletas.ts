@@ -3,14 +3,14 @@ import { CabeceraVentas } from './CabeceraVentas'
 @Entity()
 export class Boletas extends BaseEntity{
     @PrimaryGeneratedColumn()
-    idBoleta : number;
+    IdBoleta : number;
     @Column()
     Numero : number;
     @Column()
     Codigo : string;
     @Column({ type: "date" })
-    fechaBoleta : string;
+    FechaBoleta : string;
     @OneToOne(() => CabeceraVentas)
     @JoinColumn()
-    CabeceraVentasidCabeceraVentas: CabeceraVentas
+    CabeceraVentasIdCabeceraVentas: CabeceraVentas
 }

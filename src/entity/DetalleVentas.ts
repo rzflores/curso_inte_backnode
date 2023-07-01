@@ -5,19 +5,19 @@ import { CabeceraVentas } from './CabeceraVentas';
 @Entity()
 export class DetalleVentas extends BaseEntity{
     @PrimaryGeneratedColumn()
-    idDetalleVenta : number;
+    IdDetalleVenta : number;
     @Column()
     Cantidad : string;
     @Column()
-    descripcionProducto : string;
+    DescripcionProducto : string;
     @Column()
-    subTotal : string;
+    SubTotal : string;
     @Column({type: "decimal", precision: 4, scale: 4, default: 0})
-    precioUnitario : number;
+    PrecioUnitario : number;
     @Column()
-    stockActual : number;
-    @ManyToOne(() => CabeceraVentas, cabecera => cabecera.DetalleVentasidDetalleVentas)
-    CabeceraVentasidCabeceraVentas: CabeceraVentas;
+    StockActual : number;
+    @ManyToOne(() => CabeceraVentas, cabecera => cabecera.DetalleVentasIdDetalleVentas)
+    CabeceraVentasIdCabeceraVentas: CabeceraVentas;
     @OneToOne(() => Productos)
     @JoinColumn()
     ProductosidProducto: Productos

@@ -4,7 +4,7 @@ import { Roles } from './Roles';
 @Entity()
 export class Usuarios extends BaseEntity{
     @PrimaryGeneratedColumn()
-    idUsuario : number;
+    IdUsuario : number;
     @Column()
     Nombres : string;
     @Column()
@@ -12,13 +12,13 @@ export class Usuarios extends BaseEntity{
     @Column()
     Celular : string;
     @Column()
-    nombreUsuario : string;
+    NombreUsuario : string;
     @Column()
     Contrasena : string;
     @Column()
-    esHabilitado : boolean;
+    EsHabilitado : boolean;
     @Column()
-    token : string
+    Token : string
     @OneToOne(() => Roles)
     @JoinColumn()
     RolesidRoles: Roles

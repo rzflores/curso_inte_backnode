@@ -6,8 +6,8 @@
          "DOM"
       ],
       "target": "es6",
-      "module": "NodeNext",
-      "moduleResolution": "nodenext",
+      "module": "commonjs",
+      "moduleResolution": "node",
       "esModuleInterop": true,
       "outDir": "./build",
       "emitDecoratorMetadata": true,

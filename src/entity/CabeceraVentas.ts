@@ -5,16 +5,16 @@ import { DetalleVentas } from './DetalleVentas';
 @Entity()
 export class CabeceraVentas extends BaseEntity{
     @PrimaryGeneratedColumn()
-    idCabeceraVenta : number;
+    IdCabeceraVenta : number;
     @Column({type: "decimal", precision: 4, scale: 4, default: 0})
-    totalVenta : number;
+    TotalVenta : number;
     @Column({type:"date"})
-    fechaVenta : string;
+    FechaVenta : string;
     @OneToOne(() => Cupones)
     @JoinColumn()
-    CuponesidCupones: Cupones
-    @OneToMany(() => DetalleVentas, detalle => detalle.idDetalleVenta)
-    DetalleVentasidDetalleVentas: DetalleVentas[];
+    CuponesIdCupones: Cupones
+    @OneToMany(() => DetalleVentas, detalle => detalle.IdDetalleVenta)
+    DetalleVentasIdDetalleVentas: DetalleVentas[];
 }
 
   

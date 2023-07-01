@@ -4,15 +4,15 @@ import {Entity , BaseEntity , PrimaryGeneratedColumn , Column} from 'typeorm'
 @Entity()
 export class Cupones extends BaseEntity{
     @PrimaryGeneratedColumn()
-    idCupon : number;
+    IdCupon : number;
     @Column()
     Codigo : string;
     @Column({type: "decimal", precision: 4, scale: 4, default: 0})
-    porcentajeDescuento : number;
+    PorcentajeDescuento : number;
     @Column({type:"date"})
-    fechaVencimiento : string;
+    FechaVencimiento : string;
     @Column()
-    esHabilitado : boolean;
+    EsHabilitado : boolean;
    
 }
 

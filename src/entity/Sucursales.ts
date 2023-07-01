@@ -4,7 +4,7 @@ import { Usuarios } from './Usuarios';
 @Entity()
 export class Sucursales extends BaseEntity{
     @PrimaryGeneratedColumn()
-    idSucursal : number;
+    IdSucursal : number;
     @Column()
     Nombre : string;
     @Column({ type:"int" , width : 9 })

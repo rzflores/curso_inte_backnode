@@ -1,9 +1,12 @@
 
-import   express, { Request, Response }  from 'express'
-import { Usuarios } from './entity/Usuarios'
-import  { dbConect }  from './configDb/FileConfigDb'
-import { AuthService } from './services/AuthService'
+import   express  from 'express'
 
+import authRoute from './routes/auth.routes'
+import sucursalRoute from './routes/sucursal.routes'
+import usuarioRoute from './routes/usuarios.routes'
+import rolRoute from './routes/rol.routes'
+import categoriaRoute from './routes/categoria.routes'
+import unidadMedidasRoute from './routes/unidadMedidas.routes'
 
 const app = express()
 
@@ -11,16 +14,14 @@ app.use( express.json() )
 
 
 
-app.get('/',async (req :Request , res : Response) => {
+app.use( authRoute )
+app.use( sucursalRoute )
+app.use( usuarioRoute )
+app.use( rolRoute )
+app.use( categoriaRoute )
+app.use( unidadMedidasRoute )
 
-    let result = await AuthService.login();
-    const usersRepo = dbConect.getRepository(Usuarios);
-    const usuarios = await  usersRepo.find()
-    
-    
-    res.send( { usuarios} );   
 
-})
 
 
 export default app;
