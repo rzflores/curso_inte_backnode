@@ -1,4 +1,5 @@
 export interface LoginDTO{
     NombreUsuario : string,
-    Contrasenia : string
+    Contrasenia : string,
+    IdSucursal: number
 }

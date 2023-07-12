@@ -11,6 +11,24 @@ export default class RolService implements RolRepository {
     constructor(){
 
     }
+    async obtenerRolModel(IdRol: number): Promise<Roles> {
+        try {
+            
+            let result = await  this.rolService.findOne(
+                                                            { 
+                                                            where : {
+                                                                IdRol : IdRol 
+                                                                    }
+                                                            }
+                                                            );
+            if(result == null) { return Promise.reject(new Error("No se encontraron resultados")); }
+            return  new Promise<Roles>((resolve ,reject ) => {
+                resolve(result)
+        })               
+        } catch (error) {
+            return Promise.reject(new Error("Error | SucursalService | obtenerSucursal"));
+        }
+    }
     async obtenerRoles(): Promise<RolInterface[]> {
         try {
             let result = await  this.rolService.find()

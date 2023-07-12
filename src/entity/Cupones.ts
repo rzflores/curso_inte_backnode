@@ -7,7 +7,7 @@ export class Cupones extends BaseEntity{
     IdCupon : number;
     @Column()
     Codigo : string;
-    @Column({type: "decimal", precision: 4, scale: 4, default: 0})
+    @Column({type: "decimal", precision: 4, scale: 2, default: 0})
     PorcentajeDescuento : number;
     @Column({type:"date"})
     FechaVencimiento : string;

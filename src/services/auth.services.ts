@@ -8,6 +8,7 @@ import { generarJWT } from '../helpers/generarJWT'
 import { verificarExpiracionJWT } from '../helpers/verificarExpiracionJWT';
 import { RenovarTokenInterface } from '../types/auth.type';
 import { RolInterface } from '../types/rol.type';
+import { SucursalUsuarioInterface } from '../types/surcursal.type';
 
 export default class AuthService implements AuthRepository
 {
@@ -17,25 +18,35 @@ export default class AuthService implements AuthRepository
     async login(login: LoginDTO): Promise<UsuarioInterface> {
         try {
             
-          
             let result = await this.usuarioService
                                     .createQueryBuilder('usuarios')
-                                    .leftJoinAndSelect('usuarios.RolesidRoles', 'roles')
+                                    .leftJoinAndSelect('usuarios.RolesIdRoles', 'roles')
+                                    .leftJoinAndSelect('usuarios.SurcursalIdSucursal', 'sucursales')
                                     .where('usuarios.NombreUsuario = :NombreUsuario', { NombreUsuario: login.NombreUsuario })
-                                    .where('usuarios.Contrasena = :Contrasena', { Contrasena: login.Contrasenia })
-                                    .getOne();                                    
+                                    .andWhere('usuarios.Contrasena = :Contrasena', { Contrasena: login.Contrasenia })
+                                    .getOne();     
+                                    
+            console.log(result.SurcursalIdSucursal.IdSucursal)                                    
+            console.log(login)    
+            console.log(result.SurcursalIdSucursal.IdSucursal !== login.IdSucursal)    
 
 
             
             if(result == null) { return Promise.reject(new Error("Usuario o contraseña invalida.")); }
+            if(result.SurcursalIdSucursal.IdSucursal !== login.IdSucursal){ return Promise.reject(new Error("Sucursal invalida."));  }
             //generar jwt
             result.Token = generarJWT( result.IdUsuario , result.NombreUsuario ); 
             result.save()
 
             let itemRol : RolInterface = {
-                IdRol : result.RolesidRoles.IdRol,
-                Nombre : result.RolesidRoles.Nombre
+                IdRol : result.RolesIdRoles.IdRol,
+                Nombre : result.RolesIdRoles.Nombre
             }                         
+
+            let itemUsuarioSurcursal : SucursalUsuarioInterface = {
+                IdSucursal : result.SurcursalIdSucursal.IdSucursal,
+                Nombre : result.SurcursalIdSucursal.Nombre
+            }
 
             let usuario : UsuarioInterface = {
                     IdUsuario: result.IdUsuario ,
@@ -46,7 +57,8 @@ export default class AuthService implements AuthRepository
                     Contrasena: result.Contrasena,
                     EsHabilitado: result.EsHabilitado,
                     Token: result.Token,
-                    Rol : itemRol
+                    Rol : itemRol,
+                    Sucursal:itemUsuarioSurcursal
             }
             
             return  new Promise<UsuarioInterface>((resolve ,reject ) => {

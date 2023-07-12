@@ -4,9 +4,9 @@ import { LoginDTO } from '../DTO/LoginDTO';
 
 const login  = async ( req : Request , res : Response  ) => {
     try {
-         let { NombreUsuario , Contrasenia }  = req.body
+         let { NombreUsuario , Contrasenia  , IdSucursal}  = req.body
          let authService = new AuthService();
-         let loginDTO : LoginDTO = { NombreUsuario, Contrasenia }
+         let loginDTO : LoginDTO = { NombreUsuario, Contrasenia , IdSucursal }
          let result = await authService.login(loginDTO);
          res.send({
               ok : true,
@@ -24,9 +24,9 @@ const login  = async ( req : Request , res : Response  ) => {
 
 const renovarToken  = async ( req : Request , res : Response  ) => {
      try {
-     let { NombreUsuario , Contrasenia }  = req.body
+     let { NombreUsuario , Contrasenia , IdSucursal }  = req.body
      let authService = new AuthService();
-     let loginDTO : LoginDTO = { NombreUsuario, Contrasenia }
+     let loginDTO : LoginDTO = { NombreUsuario, Contrasenia , IdSucursal }
      let result  = await authService.renovarToken(loginDTO);
      res.send(result);
      } catch (error) {

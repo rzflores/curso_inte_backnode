@@ -1,6 +1,7 @@
 import {Entity , BaseEntity , PrimaryGeneratedColumn , Column ,ManyToOne, OneToOne, JoinColumn} from 'typeorm'
 import { Categorias } from './Categorias';
 import { UnidadMedidas } from './UnidadMedidas';
+import { Sucursales } from './Sucursales';
 
 @Entity()
 export class Productos extends BaseEntity{
@@ -9,21 +10,22 @@ export class Productos extends BaseEntity{
     @Column()
     NombreProducto : string;
     @Column()
-    DescripcionProducto : string;
+    DescripcionCorta : string;
     @Column()
-    NombreUsuario : string;
-    @Column({type: "decimal", precision: 4, scale: 4, default: 0})
+    DescripcionLarga : string;
+    @Column({type: "decimal", precision: 4, scale: 2, default: 0})
     PrecioUnitario : number;
     @Column()
     StockActual : number;
+    @Column()
+    UrlImagen : string;
     @Column({ type: "date" })
     FechaVencimiento : string
-    @OneToOne(() => Categorias)
-    @JoinColumn()
-    CategoriasidCategorias: Categorias
-    @OneToOne(() => UnidadMedidas)
-    @JoinColumn()
-    UnidadMedidasidUnidadMedidas: UnidadMedidas
-   
+    @ManyToOne(() => Categorias, categoria => categoria.IdCategoria)
+    CategoriaIdCategoria: Categorias;
+    @ManyToOne(() => UnidadMedidas, unidadMedida => unidadMedida.IdUnidadMedida)
+    UnidadMedidasIdUnidadMedidas: UnidadMedidas;
+    @ManyToOne(() => Sucursales, sucursal => sucursal.IdSucursal)
+    SurcursalIdSucursal: Sucursales;
 }
 

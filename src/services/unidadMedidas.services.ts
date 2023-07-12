@@ -2,7 +2,7 @@ import { Repository } from "typeorm";
 import { dbConect } from "../configDb/FileConfigDb";
 import { UnidadMedidas } from "../entity/UnidadMedidas";
 import { UnidadMedidasInterface } from "../types/unidadMedidas.type";
-import { UnidadMedidasRepository } from "../repo/UnidadMedidas.repository";
+import { UnidadMedidasRepository } from "../repo/unidadMedidas.repository";
 
 export default class UnidadMedidasService implements UnidadMedidasRepository {
 
@@ -11,11 +11,23 @@ export default class UnidadMedidasService implements UnidadMedidasRepository {
     constructor(){
 
     }
-    async obtenerUnidadMedidas(): Promise<UnidadMedidasInterface[]> {
+    async obtenerUnidadesMedidas(): Promise<UnidadMedidasInterface[]> {
         try {
             let result = await  this.unidadMedidasService.find()
             if(result == null) { return Promise.reject(new Error("No se encontraron resultados")); }
             return  new Promise<UnidadMedidasInterface[]>((resolve ,reject ) => {
+                  resolve(result)
+             })               
+        } catch (error) {
+             return Promise.reject(new Error("Error | CategoriaService"));
+        }
+    }
+
+    async obtenerUnidadMedida(IdUnidadMedida : number): Promise<UnidadMedidas> {
+        try {
+            let result = await  this.unidadMedidasService.findOne({ where : { IdUnidadMedida : IdUnidadMedida }})
+            if(result == null) { return Promise.reject(new Error("No se encontraron resultados")); }
+            return  new Promise<UnidadMedidas>((resolve ,reject ) => {
                   resolve(result)
              })               
         } catch (error) {

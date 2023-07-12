@@ -5,4 +5,6 @@ export interface AgregarUsuarioDTO {
     NombreUsuario: string,
     Contrasena: string,
     EsHabilitado: boolean,
+    IdRol : number,
+    IdSucursal : number
 }

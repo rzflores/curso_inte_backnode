@@ -91,4 +91,24 @@ export default class SucursalService implements SucursalRepository {
             return Promise.reject(new Error("Error | SucursalService"));
         }
     }
+
+    async obtenerSucursalModel(IdSucursal : number): Promise<Sucursales> {
+        
+        try {
+            
+            let result = await  this.sucursalService.findOne(
+                                                            { 
+                                                            where : {
+                                                                IdSucursal : IdSucursal 
+                                                                    }
+                                                            }
+                                                            );
+            if(result == null) { return Promise.reject(new Error("No se encontraron resultados")); }                                            
+            return  new Promise<Sucursales>((resolve ,reject ) => {
+                resolve(result)
+        })               
+        } catch (error) {
+            return Promise.reject(new Error("Error | SucursalService | obtenerSucursal"));
+        }
+    }
 }

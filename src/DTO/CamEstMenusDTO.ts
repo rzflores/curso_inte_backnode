@@ -1,6 +1,6 @@
-import { MenuDTO } from "./MenuDTO";
+import { CamEstMenuDTO } from "./CamEstMenuDTO";
 
 export interface CamEstMenusDTO{
     IdRol : number ,
-    ListaMenus : MenuDTO[] 
+    ListaMenus : CamEstMenuDTO[] 
 }

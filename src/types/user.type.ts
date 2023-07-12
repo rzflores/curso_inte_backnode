@@ -1,4 +1,5 @@
 import { RolInterface } from "./rol.type";
+import { SucursalUsuarioInterface } from "./surcursal.type";
 
 export interface UsuarioInterface {
     IdUsuario: number,
@@ -9,5 +10,6 @@ export interface UsuarioInterface {
     Contrasena: string,
     EsHabilitado: boolean,
     Token: string,
-    Rol : RolInterface
+    Rol : RolInterface,
+    Sucursal : SucursalUsuarioInterface,
 }

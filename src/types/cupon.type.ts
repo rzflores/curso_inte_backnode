@@ -2,6 +2,6 @@ export interface CuponInterface{
     IdCupon : number,
     Codigo : string,
     PorcentajeDescuento : number,
-    FechaVencimiento : Date,
+    FechaVencimiento : string,
     EsHabilitado : boolean
 }

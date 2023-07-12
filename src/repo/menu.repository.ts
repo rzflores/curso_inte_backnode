@@ -1,7 +1,7 @@
 import { CamEstMenusDTO } from "../DTO/CamEstMenusDTO";
-import { MenuRolDTO } from "../DTO/MenuRolDTO"
+import { MenuInterface } from "../types/menu.type";
 
 export interface MenuRepository{
     cambiarEstadoMenus( camEstMenus : CamEstMenusDTO  ) : Promise<boolean>
-    obtenerMenusRol() : Promise<MenuRolDTO[]>
+    obtenerMenusRol(IdRol: number) : Promise<MenuInterface[]>
 }

@@ -1,4 +1,4 @@
-import {Entity , BaseEntity , PrimaryGeneratedColumn , Column , OneToOne, JoinColumn} from 'typeorm'
+import {Entity , BaseEntity , PrimaryGeneratedColumn , Column , ManyToOne} from 'typeorm'
 import { Roles } from './Roles';
 
 @Entity()
@@ -13,8 +13,7 @@ export class Menus extends BaseEntity{
     Link : string;
     @Column()
     EsHabilitado : boolean;
-    @OneToOne(() => Roles)
-    @JoinColumn()
-    RolesidRoles: Roles
+    @ManyToOne(() => Roles, rol => rol.IdRol)
+    RolesIdRoles: Roles;
 }
 

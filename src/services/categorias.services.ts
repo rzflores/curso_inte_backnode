@@ -22,5 +22,16 @@ export default class CategoriaService implements CategoriaRepository {
              return Promise.reject(new Error("Error | CategoriaService"));
         }
     }
+    async obtenerCategoria(IdCategoria : number): Promise<Categorias> {
+        try {
+            let result = await  this.categoriaService.findOne({ where : { IdCategoria : IdCategoria }})
+            if(result == null) { return Promise.reject(new Error("No se encontraron resultados")); }
+            return  new Promise<Categorias>((resolve ,reject ) => {
+                  resolve(result)
+             })               
+        } catch (error) {
+             return Promise.reject(new Error("Error | CategoriaService"));
+        }
+    }
    
 }

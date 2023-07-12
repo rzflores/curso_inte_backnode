@@ -55,7 +55,9 @@ const registrarUsuario  = async ( req : Request , res : Response  ) => {
             Celular , 
             NombreUsuario ,
             Contrasena,
-            EsHabilitado
+            EsHabilitado,
+            IdRol,
+            IdSucursal
         }  = req.body
 
         let newUsuarioDTO : AgregarUsuarioDTO = {
@@ -64,7 +66,9 @@ const registrarUsuario  = async ( req : Request , res : Response  ) => {
             Celular,
             NombreUsuario,
             Contrasena,
-            EsHabilitado
+            EsHabilitado,
+            IdRol,
+            IdSucursal
         }
         let usuarioService = new UsuarioService();
         let result = await usuarioService.registrarUsuario(newUsuarioDTO);
@@ -94,7 +98,9 @@ const editarUsuario = async ( req : Request , res : Response  ) => {
             Celular , 
             NombreUsuario ,
             Contrasena,
-            EsHabilitado
+            EsHabilitado,
+            IdRol,
+            IdSucursal
         }  = req.body
 
         let usuarioDTO : UsuarioDTO = {
@@ -104,7 +110,9 @@ const editarUsuario = async ( req : Request , res : Response  ) => {
             Celular,
             NombreUsuario,
             Contrasena,
-            EsHabilitado
+            EsHabilitado,
+            IdRol,
+            IdSucursal
         }
 
         let usuarioService = new UsuarioService();

@@ -5,5 +5,7 @@ export interface UsuarioDTO {
     Celular: string,
     NombreUsuario: string,
     Contrasena: string,
-    EsHabilitado: boolean
+    EsHabilitado: boolean,
+    IdRol: number,
+    IdSucursal: number,
 }

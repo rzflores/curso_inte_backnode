@@ -1,12 +1,10 @@
-import { CamEstCuponDTO } from "../DTO/CamEstCuponDTO";
+import { AgregarCuponDTO } from "../DTO/AgregarCuponDTO";
 import { CuponDTO } from "../DTO/CuponDTO";
 import { CuponInterface } from "../types/cupon.type";
 
 export interface CuponRepository{
-    obtenerCupon() : Promise<CuponInterface>
+    obtenerCupon(IdCupon: number) : Promise<CuponInterface>
     obtenerCupones() : Promise<CuponInterface[]>
-    registrarCupon(cupon : CuponDTO) : Promise<boolean>
+    registrarCupon(cupon : AgregarCuponDTO) : Promise<boolean>
     editarCupon(cupon : CuponDTO) : Promise<boolean>
-    cambiarEstadoCupon( camEstCupon : CamEstCuponDTO ) : Promise<boolean>
-
 }

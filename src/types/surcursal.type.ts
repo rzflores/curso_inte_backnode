@@ -5,3 +5,14 @@ export interface SucursalInterface {
     Direccion: string,
     Referencia: string,
 }
+
+
+export interface SucursalUsuarioInterface {
+    IdSucursal: number,
+    Nombre: string,
+}
+
+export interface SucursalCategoriaInterface {
+    IdSucursal: number,
+    Nombre: string,
+}

@@ -4,7 +4,7 @@ import { login, renovarToken } from "../controllers/auth.controllers";
 
 const route = Router();
 
-route.get('/auth/login'  , login )
+route.post('/auth/login'  , login )
 
 route.post('/auth/renovar' , renovarToken )
 

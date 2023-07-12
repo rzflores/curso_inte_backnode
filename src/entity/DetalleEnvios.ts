@@ -10,15 +10,8 @@ export class DetalleEnvios extends BaseEntity{
     Cantidad : number;
     @Column( { type: 'decimal' } )
     SubTotal : number;
-    @OneToOne(() => Sucursales)
-    @JoinColumn()
-    IdSucursalOrigen: Sucursales
-    @OneToOne(() => Sucursales)
-    @JoinColumn()
-    IdSucursalDestino: Sucursales
     @ManyToOne(() => CabeceraEnvios, cabeceraEnvios => cabeceraEnvios.DetalleEnviosIdDetalleEnvios)
     CabeceraVentasIdCabeceraVentas: CabeceraEnvios;
-    @OneToOne(() => Productos)
-    @JoinColumn()
+    @ManyToOne(() => Productos , producto => producto.IdProducto)
     ProductosIdProducto: Productos
 }

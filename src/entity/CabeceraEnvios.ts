@@ -1,6 +1,7 @@
-import {Entity , BaseEntity , PrimaryGeneratedColumn , Column , OneToMany , OneToOne, JoinColumn} from 'typeorm'
+import {Entity , BaseEntity , PrimaryGeneratedColumn , Column , OneToMany , OneToOne, JoinColumn, ManyToOne} from 'typeorm'
 import { Sucursales } from './Sucursales';
 import { DetalleEnvios } from './DetalleEnvios';
+import { Usuarios } from './Usuarios';
 @Entity()
 export class CabeceraEnvios extends BaseEntity{
     @PrimaryGeneratedColumn()
@@ -15,11 +16,11 @@ export class CabeceraEnvios extends BaseEntity{
     CelularConductor : string
     @Column({ length:15 })
     PlacaVehiculo : string
-    @OneToOne(() => Sucursales)
-    @JoinColumn()
+    @ManyToOne(() => Usuarios , usuario => usuario.IdUsuario)
+    IdUsuario: Usuarios
+    @ManyToOne(() => Sucursales , sucursal => sucursal.IdSucursal)
     IdSucursalOrigen: Sucursales
-    @OneToOne(() => Sucursales)
-    @JoinColumn()
+    @ManyToOne(() => Sucursales , sucursal => sucursal.IdSucursal)
     IdSucursalDestino: Sucursales
     @OneToMany(() => DetalleEnvios, detalleEnvios => detalleEnvios.IdDetalleEnvio)
     DetalleEnviosIdDetalleEnvios: DetalleEnvios[];

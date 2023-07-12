@@ -1,26 +1,19 @@
 import {Entity , BaseEntity , PrimaryGeneratedColumn , Column , ManyToOne} from 'typeorm'
 import { Roles } from './Roles';
 import { Sucursales } from './Sucursales';
+import { Productos } from './Productos';
 
 @Entity()
-export class Usuarios extends BaseEntity{
+export class Kardex extends BaseEntity{
     @PrimaryGeneratedColumn()
-    IdUsuario : number;
+    IdKardex : number;
     @Column()
-    Nombres : string;
+    TipoMovimiento : string;
+    @Column({ type : 'date' })
+    FechaVencimiento : string;
     @Column()
-    Apellidos : string;
-    @Column()
-    Celular : string;
-    @Column()
-    NombreUsuario : string;
-    @Column()
-    Contrasena : string;
-    @Column()
-    EsHabilitado : boolean;
-    @Column()
-    Token : string
-    @ManyToOne(() => Roles, rol => rol.IdRol)
+    CantidadMovimiento : number;
+    @ManyToOne(() => Productos, producto => producto.IdProducto)
     RolesIdRoles: Roles;
     @ManyToOne(() => Sucursales, sucursal => sucursal.IdSucursal)
     SurcursalIdSucursal: Sucursales;

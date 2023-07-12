@@ -4,7 +4,7 @@ import { checkToken } from '../middlewares/checkToken'
 const route = Router();
 
 route.post('/sucursal/obtenerSucursal' , [checkToken] , obtenerSucursal )
-route.post('/sucursal/obtenerSucursales' , [checkToken] , obtenerSucursales )
+route.post('/sucursal/obtenerSucursales' , obtenerSucursales )
 route.post('/sucursal/registrarSucursal' , [checkToken] , registrarSucursal )
 route.post('/sucursal/editarSurcursal' , [checkToken] , editarSurcursal )
 

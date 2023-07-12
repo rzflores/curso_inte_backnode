@@ -7,7 +7,7 @@ const obtenerUnidadMedidas  = async ( req : Request , res : Response  ) => {
     
     try {
         let unidadMedidasService = new UnidadMedidasService();
-        let result = await unidadMedidasService.obtenerUnidadMedidas()
+        let result = await unidadMedidasService.obtenerUnidadesMedidas()
         res.status(200).send(
               {
                   ok : true,  
