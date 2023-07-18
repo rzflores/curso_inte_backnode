@@ -35,6 +35,26 @@ export default class CuponService implements CuponRepository{
             return Promise.reject(new Error("Error | Cuponervice | obtenerCupon"));
         }
     }
+    async obtenerCuponModel(IdCupon: number): Promise<Cupones> {
+        
+        try {
+            let result = await  this.CuponService.findOne(
+                { 
+                where : {
+                    IdCupon : IdCupon 
+                        }
+                }
+                );
+
+            if(result == null) { return Promise.reject(new Error("No se encontraron resultados")); }
+                                                
+            return  new Promise<Cupones>((resolve ,reject ) => {
+                resolve(result)
+        })               
+        } catch (error) {            
+            return Promise.reject(new Error("Error | Cuponervice | obtenerCupon"));
+        }
+    }
     async obtenerCupones(): Promise<CuponInterface[]> {
         try {
             let result = await  this.CuponService.find()
@@ -98,7 +118,31 @@ export default class CuponService implements CuponRepository{
             return Promise.reject(new Error("Error | CuponService | editarCupon"));
         }
     }
-    
+    async verificarCupon(CodigoCupon: string): Promise<CuponInterface> {
+        
+        try {
+            let result = await  this.CuponService.findOne(
+                { 
+                where : {
+                    Codigo : CodigoCupon 
+                        }
+                }
+                );
+
+            if(result == null) { return Promise.reject(new Error("No se encontraron resultados")); }
+               
+            let fechaCupon = new Date(result.FechaVencimiento).getTime()
+            if( fechaCupon < Date.now() ){
+                return Promise.reject(new Error("Cupon Vencido")); 
+            }
+
+            return  new Promise<CuponInterface>((resolve ,reject ) => {
+                resolve(result)
+        })               
+        } catch (error) {            
+            return Promise.reject(new Error("Error | Cuponervice | obtenerCupon"));
+        }
+    }
 
 
 

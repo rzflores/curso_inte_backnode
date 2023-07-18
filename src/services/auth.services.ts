@@ -26,12 +26,7 @@ export default class AuthService implements AuthRepository
                                     .andWhere('usuarios.Contrasena = :Contrasena', { Contrasena: login.Contrasenia })
                                     .getOne();     
                                     
-            console.log(result.SurcursalIdSucursal.IdSucursal)                                    
-            console.log(login)    
-            console.log(result.SurcursalIdSucursal.IdSucursal !== login.IdSucursal)    
-
-
-            
+            console.log(result)    
             if(result == null) { return Promise.reject(new Error("Usuario o contraseña invalida.")); }
             if(result.SurcursalIdSucursal.IdSucursal !== login.IdSucursal){ return Promise.reject(new Error("Sucursal invalida."));  }
             //generar jwt

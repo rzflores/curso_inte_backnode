@@ -72,6 +72,73 @@ export default class ProductoService implements ProductoRepository{
             return Promise.reject(new Error("Error | ProductoService | obtenerProducto"));
         }
     }
+    async obtenerProductosLikeNombre(IdSucursal : number , NombreProducto : string): Promise<ProductoInterface[]> {
+        try {
+            let result = null;
+         if(NombreProducto != "")
+         {   
+            result = await  this.productoService .createQueryBuilder('productos')
+            .leftJoinAndSelect('productos.CategoriaIdCategoria', 'categorias')
+            .leftJoinAndSelect('productos.UnidadMedidasIdUnidadMedidas', 'unidad_medidas')
+            .leftJoinAndSelect('productos.SurcursalIdSucursal', 'sucursales')
+            .where('productos.SurcursalIdSucursal = :IdSucursal', { IdSucursal: IdSucursal })
+            .andWhere('productos.NombreProducto LIKE :NombreProducto', { NombreProducto:  `%${NombreProducto}%` })
+            .getMany()
+        }else
+        {
+            result = await  this.productoService .createQueryBuilder('productos')
+            .leftJoinAndSelect('productos.CategoriaIdCategoria', 'categorias')
+            .leftJoinAndSelect('productos.UnidadMedidasIdUnidadMedidas', 'unidad_medidas')
+            .leftJoinAndSelect('productos.SurcursalIdSucursal', 'sucursales')
+            .where('productos.SurcursalIdSucursal = :IdSucursal', { IdSucursal: IdSucursal })
+            .getMany()
+        }    
+
+         if(result == null) { return Promise.reject(new Error("No se encontraron resultados")); }
+
+         let lstProductos : ProductoInterface[] = [];
+         result.forEach((e) => {
+             let itemCategoria : CategoriaInterface = {
+                 IdCategoria : e.CategoriaIdCategoria.IdCategoria,
+                 Nombre : e.CategoriaIdCategoria.Nombre
+             }
+             let itemUnidadMedida : UnidadMedidasInterface = {
+                 IdUnidadMedida : e.UnidadMedidasIdUnidadMedidas.IdUnidadMedida,
+                 Numero : e.UnidadMedidasIdUnidadMedidas.Numero,
+                 NombreGramajeCorto : e.UnidadMedidasIdUnidadMedidas.NombreGramajeCorto,
+                 NombreGramajeLargo :  e.UnidadMedidasIdUnidadMedidas.NombreGramajeLargo
+             }
+             let itemUsuarioSurcursal : SucursalUsuarioInterface = {
+                 IdSucursal : e.SurcursalIdSucursal.IdSucursal,
+                 Nombre : e.SurcursalIdSucursal.Nombre
+             }
+             
+             let itemProducto : ProductoInterface = {
+                 IdProducto : e.IdProducto,
+                 NombreProducto : e.NombreProducto,
+                 DescripcionCorta : e.DescripcionCorta,
+                 DescripcionLarga : e.DescripcionLarga,
+                 PrecioUnitario : e.PrecioUnitario,
+                 StockActual : e.StockActual ,
+                 UrlImagen : e.UrlImagen,
+                 FechaVencimiento : e.FechaVencimiento ,
+                 Categoria : itemCategoria,
+                 UnidadMedida : itemUnidadMedida,
+                 Sucursal : itemUsuarioSurcursal
+                 
+             }     
+             lstProductos.push(itemProducto)
+         })
+        
+
+         return  new Promise<ProductoInterface[]>((resolve ,reject ) => {
+                resolve(lstProductos)
+          })               
+     } catch (error) {
+         console.log(error.message)
+          return Promise.reject(new Error("Error | UsuarioService | obtenerUsuarios"));
+     }
+ }
     async obtenerProductoModel(IdProducto: number): Promise<Productos> {
         try {
             const result = await this.productoService
@@ -95,7 +162,6 @@ export default class ProductoService implements ProductoRepository{
     }
     async obtenerProductoPorNombre(Nombre: string , IdSucursal : number): Promise<Productos | null> {
         try {
-            console.log(Nombre,IdSucursal)
             const result = await this.productoService
             .createQueryBuilder('productos')
             .leftJoinAndSelect('productos.CategoriaIdCategoria', 'categorias')
@@ -104,11 +170,8 @@ export default class ProductoService implements ProductoRepository{
             .where('productos.NombreProducto = :NombreProducto', { NombreProducto:  Nombre })
             .andWhere('productos.SurcursalIdSucursal = :IdSucursal', { IdSucursal })
             .getOne();
-
-            if(result == null) { return Promise.reject(null); }
-            console.log(result)
             
-            return  new Promise<Productos>((resolve ,reject ) => {
+            return  new Promise<Productos| null>((resolve ,reject ) => {
                 resolve(result)
         })               
         } catch (error) {     
@@ -248,10 +311,114 @@ export default class ProductoService implements ProductoRepository{
         }
     }
     async obtenerReporteStock(filtroStock: FiltrosStockDTO): Promise<ReporteStock[]> {
-        throw new Error("Method not implemented.");
+        try {
+            
+            let result = null;
+            if(filtroStock.IdCategoria != null){
+                result = await this.productoService
+                .createQueryBuilder('productos')
+                .leftJoinAndSelect('productos.CategoriaIdCategoria', 'categorias')
+                .leftJoinAndSelect('productos.UnidadMedidasIdUnidadMedidas', 'unidad_medidas')
+                .leftJoinAndSelect('productos.SurcursalIdSucursal', 'sucursales')
+                .where('productos.NombreProducto LIKE :filtroNombre', { filtroNombre: `%${filtroStock.Nombre}%` })
+                .andWhere('productos.DescripcionCorta LIKE :filtroDesc', { filtroDesc: `%${filtroStock.Descripcion}%` })
+                .andWhere('productos.CategoriaIdCategoria.IdCategoria = :IdCategoria', { IdCategoria : filtroStock.IdCategoria })            
+                .getMany();
+            }else{
+                result = await this.productoService
+                .createQueryBuilder('productos')
+                .leftJoinAndSelect('productos.CategoriaIdCategoria', 'categorias')
+                .leftJoinAndSelect('productos.UnidadMedidasIdUnidadMedidas', 'unidad_medidas')
+                .leftJoinAndSelect('productos.SurcursalIdSucursal', 'sucursales')
+                .where('productos.NombreProducto LIKE :filtroNombre', { filtroNombre: `%${filtroStock.Nombre}%` })
+                .andWhere('productos.DescripcionCorta LIKE :filtroDesc', { filtroDesc: `%${filtroStock.Descripcion}%` })
+                .getMany();
+            }
+            let lsReporteStock : ReporteStock[] = [];
+            
+            if(result == null) { return Promise.reject(null); }
+            result.forEach( item => {
+                let itemReporte : ReporteStock = {
+                    IdProducto : item.IdProducto,
+                    nombreProducto : item.NombreProducto,
+                    descripcionProducto : item.DescripcionCorta,
+                    nombreCategoria : item.CategoriaIdCategoria.Nombre,
+                    stockProducto : item.StockActual,
+                    nombreSucursal : item.SurcursalIdSucursal.Nombre
+                }
+                lsReporteStock.push(itemReporte)
+            } )
+            return  new Promise<ReporteStock[]>((resolve ,reject ) => {
+                resolve(lsReporteStock)
+        })               
+        } catch (error) {     
+            console.log(error)       
+            return Promise.reject(new Error("Error | ProductoService | obtenerProducto"));
+        }
     }
     async obtenerReporteVencimiento(filtroVencimiento: FiltrosVencimientoDTO): Promise<ReporteVencimiento[]> {
-        throw new Error("Method not implemented.");
+        try {
+            let result = null;
+
+            console.log(filtroVencimiento)
+            if(filtroVencimiento.IdCategoria != null && 
+                filtroVencimiento.FechaInicio != null &&
+                filtroVencimiento.FechaFin != null){
+
+                let FechaInicio = filtroVencimiento.FechaInicio;
+                let FechaFin = filtroVencimiento.FechaFin;
+              
+                result = await this.productoService
+                .createQueryBuilder('productos')
+                .leftJoinAndSelect('productos.CategoriaIdCategoria', 'categorias')
+                .leftJoinAndSelect('productos.UnidadMedidasIdUnidadMedidas', 'unidad_medidas')
+                .leftJoinAndSelect('productos.SurcursalIdSucursal', 'sucursales')
+                .where('productos.NombreProducto LIKE :filtroNombre', { filtroNombre: `%${filtroVencimiento.Nombre}%` })
+                .andWhere('productos.DescripcionCorta LIKE :filtroDesc', { filtroDesc: `%${filtroVencimiento.Descripcion}%` })
+                .andWhere('productos.CategoriaIdCategoria.IdCategoria = :idCategoria', { idCategoria : filtroVencimiento.IdCategoria })            
+                .andWhere('productos.FechaVencimiento BETWEEN :fechaInicio AND :fechaFin', { fechaInicio  : FechaInicio   ,fechaFin:  FechaFin })
+                .getMany();
+
+            }else if(filtroVencimiento.IdCategoria == null && 
+                filtroVencimiento.FechaInicio != null &&
+                filtroVencimiento.FechaFin != null){
+
+                    let FechaInicio = filtroVencimiento.FechaInicio;
+                    let FechaFin = filtroVencimiento.FechaFin;    
+
+                result = await this.productoService
+                .createQueryBuilder('productos')
+                .leftJoinAndSelect('productos.CategoriaIdCategoria', 'categorias')
+                .leftJoinAndSelect('productos.UnidadMedidasIdUnidadMedidas', 'unidad_medidas')
+                .leftJoinAndSelect('productos.SurcursalIdSucursal', 'sucursales')
+                .where('productos.NombreProducto LIKE :filtroNombre', { filtroNombre: `%${filtroVencimiento.Nombre}%` })
+                .andWhere('productos.DescripcionCorta LIKE :filtroDesc', { filtroDesc: `%${filtroVencimiento.Descripcion}%` })
+                .andWhere('productos.FechaVencimiento BETWEEN :fechaInicio AND :fechaFin', { fechaInicio  : FechaInicio   ,fechaFin:  FechaFin })
+                .getMany();
+            }
+
+            let lsReporteVencimiento : ReporteVencimiento[] = [];
+            if(result == null) { return Promise.reject(null); }
+ 
+            result.forEach( item => {
+                let itemVencimiento : ReporteVencimiento = {
+                    IdProducto : item.IdProducto,
+                    nombreProducto : item.NombreProducto,
+                    descripcionProducto : item.DescripcionCorta,
+                    nombreCategoria : item.CategoriaIdCategoria.Nombre,
+                    fechaVencimiento : item.FechaVencimiento,
+                    nombreSucursal : item.SurcursalIdSucursal.Nombre
+                }
+                lsReporteVencimiento.push(itemVencimiento)
+            } )
+            
+            return  new Promise<ReporteVencimiento[]>((resolve ,reject ) => {
+                resolve(lsReporteVencimiento)
+        })               
+        } catch (error) {     
+            console.log(error)       
+            return Promise.reject(new Error("Error | ProductoService | obtenerProducto"));
+        }
     }
   
   

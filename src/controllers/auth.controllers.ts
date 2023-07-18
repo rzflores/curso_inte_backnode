@@ -5,15 +5,24 @@ import { LoginDTO } from '../DTO/LoginDTO';
 const login  = async ( req : Request , res : Response  ) => {
     try {
          let { NombreUsuario , Contrasenia  , IdSucursal}  = req.body
+
+         if( NombreUsuario== "" || Contrasenia == "" || IdSucursal == null ){
+          return res.status(404).send(
+               { 
+               ok : false,
+               mensaje : "Campos Obligatorios no Proporcionados"
+               }
+          )
+         }
          let authService = new AuthService();
          let loginDTO : LoginDTO = { NombreUsuario, Contrasenia , IdSucursal }
          let result = await authService.login(loginDTO);
-         res.send({
+         return res.send({
               ok : true,
               data  : result
          });
     } catch (error) {
-          res.status(404).send(
+          return res.status(404).send(
                { 
                ok : false,
                mensaje : error.message

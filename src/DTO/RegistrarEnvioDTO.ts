@@ -10,6 +10,5 @@ export interface RegistrarEnvioDTO{
     IdUsuario : number,
     IdSucursalOrigen : number,
     IdSucursalDestino : number
-    ListaDetalleEnvio : DetalleEnvioDTO[],
-    GuiaRemision : GuiaRemisionDTO
+    ListaDetalleEnvio : DetalleEnvioDTO[]
 }

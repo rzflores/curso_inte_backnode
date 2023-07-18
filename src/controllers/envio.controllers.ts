@@ -13,8 +13,7 @@ const realizarEnvio  = async ( req : Request , res : Response  ) => {
             IdUsuario ,
             IdSucursalOrigen ,
             IdSucursalDestino ,
-            ListaDetalleEnvio ,
-            GuiaRemision 
+            ListaDetalleEnvio 
         }  = req.body
 
          let envioService = new EnvioService();
@@ -27,8 +26,7 @@ const realizarEnvio  = async ( req : Request , res : Response  ) => {
             IdUsuario,
             IdSucursalOrigen,
             IdSucursalDestino,
-            ListaDetalleEnvio,
-            GuiaRemision 
+            ListaDetalleEnvio
         }
          let result = await envioService.registrarEnvio(registrarEnvioDTO);
          res.send({

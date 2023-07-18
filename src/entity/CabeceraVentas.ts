@@ -1,4 +1,4 @@
-import {Entity , BaseEntity , PrimaryGeneratedColumn , Column ,OneToMany, OneToOne, JoinColumn} from 'typeorm'
+import {Entity , BaseEntity , PrimaryGeneratedColumn , Column ,OneToMany, OneToOne, JoinColumn, ManyToOne} from 'typeorm'
 import { Cupones } from './Cupones';
 import { DetalleVentas } from './DetalleVentas';
 
@@ -6,13 +6,12 @@ import { DetalleVentas } from './DetalleVentas';
 export class CabeceraVentas extends BaseEntity{
     @PrimaryGeneratedColumn()
     IdCabeceraVenta : number;
-    @Column({type: "decimal", precision: 4, scale: 4, default: 0})
+    @Column({type: "decimal", precision: 8, scale: 4, default: 0})
     TotalVenta : number;
     @Column({type:"date"})
     FechaVenta : string;
-    @OneToOne(() => Cupones)
-    @JoinColumn()
-    CuponesIdCupones: Cupones
+    @ManyToOne(() => Cupones , cupon => cupon.IdCupon)
+    IdCupon: Cupones
     @OneToMany(() => DetalleVentas, detalle => detalle.IdDetalleVenta)
     DetalleVentasIdDetalleVentas: DetalleVentas[];
 }

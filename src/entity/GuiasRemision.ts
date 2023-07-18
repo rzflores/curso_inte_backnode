@@ -4,8 +4,8 @@ import { CabeceraEnvios } from './CabeceraEnvios';
 export class GuiasRemision extends BaseEntity{
     @PrimaryGeneratedColumn()
     IdGuiaRemision : number;
-    @Column({length:3})
-    Numero : string;
+    @Column()
+    Numero : number;
     @Column({length: 2})
     Codigo : string;
     @Column({type: "date"})

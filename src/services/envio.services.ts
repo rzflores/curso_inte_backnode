@@ -8,6 +8,7 @@ import UsuarioService from "./usuario.services";
 import SucursalService from "./surcursal.services";
 import ProductoService from "./producto.services";
 import { Productos } from "../entity/Productos";
+import { GuiasRemisionInterface } from "../types/guiaRemision.type";
 
 export default class EnvioService  {
 
@@ -19,7 +20,7 @@ export default class EnvioService  {
     constructor(){
 
     }
-    async registrarEnvio(envio : RegistrarEnvioDTO): Promise<boolean> {
+    async registrarEnvio(envio : RegistrarEnvioDTO): Promise<GuiasRemisionInterface> {
         try {
             let productoService = new ProductoService();
            
@@ -41,16 +42,34 @@ export default class EnvioService  {
             let cabeceraEnvioGuardada = await this.cabeceraEnviosService.save(cabeceraEnvio);
 
             let IdCabeceraEnvio = cabeceraEnvioGuardada.IdCabeceraEnvio;
+
             // registrar guia Remision
             let guiaRemision = new GuiasRemision();
-            guiaRemision.Codigo = envio.GuiaRemision.Codigo;
-            guiaRemision.Numero = envio.GuiaRemision.Numero;
-            guiaRemision.FechaGuia = envio.GuiaRemision.FechaGuia;
-            let cabeceraEnvioRegistrada = await this.cabeceraEnviosService.findOne( { where : { IdCabeceraEnvio }} )
-            guiaRemision.CabeceraEnviosIdCabeceraEnvio = cabeceraEnvioRegistrada;
-            this.guiaRemisionService.save(guiaRemision);
+            let cabeceraEnvioRegistrada = await this.cabeceraEnviosService
+            .findOne( { where : { IdCabeceraEnvio }} )
+            let resultUltimaGuia : GuiasRemision[] = await this.guiaRemisionService.find({
+                order: {
+                    IdGuiaRemision: 'DESC' 
+                },
+                take: 1 
+              });
 
-            
+            let guiaRemisionGuardada = null;
+            //primera vez que se registra una guia  
+            if(resultUltimaGuia == null){
+                guiaRemision.CabeceraEnviosIdCabeceraEnvio = cabeceraEnvioRegistrada;
+                guiaRemision.Codigo = "G"
+                guiaRemision.FechaGuia = new Date().toISOString().split('T')[0];
+                guiaRemision.Numero = 1
+                guiaRemisionGuardada = await this.guiaRemisionService.save(guiaRemision);
+            }else{
+                guiaRemision.CabeceraEnviosIdCabeceraEnvio = cabeceraEnvioRegistrada;
+                guiaRemision.Codigo = "G"
+                resultUltimaGuia[0].Numero++;
+                guiaRemision.Numero = resultUltimaGuia[0].Numero;
+                guiaRemision.FechaGuia = new Date().toISOString().split('T')[0];
+                guiaRemisionGuardada = await this.guiaRemisionService.save(guiaRemision);
+            }  
 
             //registrar detalle envio
             envio.ListaDetalleEnvio.forEach(async e =>  {
@@ -59,7 +78,7 @@ export default class EnvioService  {
                  detalleEnvio.SubTotal = e.SubTotal;
                  detalleEnvio.ProductosIdProducto = await productoService.obtenerProductoModel(e.IdProducto);
                  detalleEnvio.CabeceraVentasIdCabeceraVentas = cabeceraEnvioRegistrada
-                 this.detalleEnviosService.save(detalleEnvio)
+                 await this.detalleEnviosService.save(detalleEnvio)
             })
 
             // realizar el cambio de sucursal en la tabla productos
@@ -85,9 +104,8 @@ export default class EnvioService  {
                     await this.productoServiceRepo.save(productoEnviado)
                 }
             })
-
-            return  new Promise<boolean>((resolve ,reject ) => {
-                  resolve(true)
+            return  new Promise<GuiasRemisionInterface>((resolve ,reject ) => {
+                  resolve(guiaRemisionGuardada)
              })               
         } catch (error) {
              console.log(error)   

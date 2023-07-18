@@ -144,5 +144,28 @@ const editarProducto = async ( req : Request , res : Response  ) => {
     }
 }
 
+const obtenerProductosLikeNombre  = async ( req : Request , res : Response  ) => {
+    
+    try {
+        let { IdSucursal , NombreProducto } = req.body
+        let productoService = new ProductoService();
+        let result = await productoService.obtenerProductosLikeNombre(IdSucursal,NombreProducto)
+        res.status(200).send(
+              {
+                  ok : true,  
+                  data : result
+              }  
+            );
+    } catch (error) {
+        res.status(404).send(
+            { 
+                ok : false,
+                mensaje : error.message
+            }
+        )
+    }
+} 
 
-export { obtenerProducto , obtenerProductos , registrarProducto , editarProducto };
+
+
+export { obtenerProducto , obtenerProductos , registrarProducto , editarProducto , obtenerProductosLikeNombre };

@@ -7,22 +7,12 @@ export class DetalleVentas extends BaseEntity{
     @PrimaryGeneratedColumn()
     IdDetalleVenta : number;
     @Column()
-    Cantidad : string;
+    Cantidad : number;
     @Column()
-    DescripcionProducto : string;
-    @Column()
-    SubTotal : string;
-    @Column({type: "decimal", precision: 4, scale: 4, default: 0})
-    PrecioUnitario : number;
-    @Column()
-    StockActual : number;
+    SubTotal : number;
     @ManyToOne(() => CabeceraVentas, cabecera => cabecera.DetalleVentasIdDetalleVentas)
     CabeceraVentasIdCabeceraVentas: CabeceraVentas;
-    @OneToOne(() => Productos)
-    @JoinColumn()
-    ProductosidProducto: Productos
-    
-    
-
+    @ManyToOne(() => Productos , producto => producto.IdProducto)
+    ProductosIdProducto: Productos
 }
 

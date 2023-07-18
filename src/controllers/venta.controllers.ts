@@ -1,36 +1,24 @@
 import { Request, Response } from "express";
-import { RegistrarEnvioDTO } from '../DTO/RegistrarEnvioDTO';
-import EnvioService from "../services/envio.services";
+import VentaService from "../services/venta.services";
+import { RegistrarVentaDTO } from "../DTO/RegistrarVentaDTO";
 
 const realizarVenta  = async ( req : Request , res : Response  ) => {
     try {
          let { 
-            FechaSalida ,
-            FechaLlegada ,
-            NombreConductor ,
-            CelularConductor ,
-            PlacaVehiculo ,
-            IdUsuario ,
-            IdSucursalOrigen ,
-            IdSucursalDestino ,
-            ListaDetalleEnvio ,
-            GuiaRemision 
+            TotalVenta ,
+            FechaVenta ,
+            IdCupon ,
+            ListaDetalleVenta 
         }  = req.body
 
-         let envioService = new EnvioService();
-         let registrarEnvioDTO : RegistrarEnvioDTO = { 
-            FechaSalida, 
-            FechaLlegada , 
-            NombreConductor,
-            CelularConductor,
-            PlacaVehiculo,
-            IdUsuario,
-            IdSucursalOrigen,
-            IdSucursalDestino,
-            ListaDetalleEnvio,
-            GuiaRemision 
+         let ventaService = new VentaService();
+         let registrarVentaDTO : RegistrarVentaDTO = { 
+            TotalVenta, 
+            FechaVenta , 
+            IdCupon,
+            ListaDetalleVenta
         }
-         let result = await envioService.registrarEnvio(registrarEnvioDTO);
+         let result = await ventaService.registrarVenta(registrarVentaDTO);
          res.send({
               ok : true,
               data  : result

@@ -106,5 +106,29 @@ const editarCupon = async ( req : Request , res : Response  ) => {
     }
 }
 
+const verificarCupon  = async ( req : Request , res : Response  ) => {
+    try {
+        let { CodigoCupon } = req.body
+        let cuponService = new CuponService();
+        let result = await cuponService.verificarCupon(CodigoCupon)
 
-export { obtenerCupon , obtenerCupones , registrarCupon , editarCupon };
+        res.status(200).send(
+              {
+                  ok : true,  
+                  data : result
+              }  
+            );
+    } catch (error) {
+        res.status(404).send(
+            { 
+                ok : false,
+                mensaje : error.message
+            }
+        )
+    }
+} 
+
+
+
+
+export { obtenerCupon , obtenerCupones , registrarCupon , editarCupon , verificarCupon };

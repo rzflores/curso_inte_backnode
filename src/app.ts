@@ -12,6 +12,8 @@ import cuponRoute from './routes/cupon.routes'
 import menuRoute from './routes/menu.routes'
 import productoRoute from './routes/producto.routes'
 import envioRoute from './routes/envio.routes'
+import ventaRoute from './routes/venta.routes'
+import reporteRoute from './routes/reporte.routes'
 
 
 const app = express()
@@ -30,6 +32,10 @@ app.use( cuponRoute )
 app.use( menuRoute )
 app.use( productoRoute )
 app.use( envioRoute )
+app.use( ventaRoute )
+app.use( reporteRoute )
+
+
 
 
 
