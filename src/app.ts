@@ -18,10 +18,7 @@ import reporteRoute from './routes/reporte.routes'
 
 const app = express()
 
-app.use(cors({
-    origin: ['http://localhost:3000', 'https://test-netlify-vue-vuetify.netlify.app/']
-
-}))
+app.use(cors())
 
 app.use((req, res, next) => {
 	res.header('Access-Control-Allow-Origin', '*');
