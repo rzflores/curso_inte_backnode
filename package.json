@@ -7,6 +7,7 @@
       "dev": "ts-node-dev src/index.ts",
       "build": "tsc -p .",
       "start": "ts-node src/index.ts",
+      "prod": "node ./build/index.js",
       "typeorm": "typeorm-ts-node-esm --dataSource=./src/configDb/FileConfigDb.ts",
       "m:gen": "npm run typeorm migration:generate",
       "m:run": "npm run typeorm migration:run",
