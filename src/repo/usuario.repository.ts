@@ -1,5 +1,4 @@
 import { AgregarUsuarioDTO } from "../DTO/AgregarUsuarioDTO";
-import { CamEstUsuarioDTO } from "../DTO/CamEstUsuarioDTO";
 import { UsuarioDTO } from "../DTO/UsuarioDTO";
 import { UsuarioInterface } from "../types/user.type";
 

@@ -2,10 +2,10 @@ import { DataSource } from "typeorm"
 
 export const dbConect = new DataSource({
     type: "mysql",
-    host : "localhost",
-    port : 33060 ,
-    username: "root",
-    password: "123456",
+    host : "db-mysql-sfo3-04155-do-user-14396833-0.b.db.ondigitalocean.com",
+    port : 25060 ,
+    username: "test",
+    password: "AVNS_1gPuzAKCLgRTUHAtvaA",
     database : "dbsiskardexventas",
     migrations: ["../migrations/*.ts"],
     migrationsTableName: "migrations",
@@ -13,6 +13,7 @@ export const dbConect = new DataSource({
     synchronize: true,
     migrationsRun : true,
     logging: false,
+    ssl: true
 
 })
 
