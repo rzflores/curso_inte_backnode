@@ -9,8 +9,8 @@ const init = async () =>{
         await dbConect.initialize()
         .then(() => { console.log("Conectado con exito!")})
         .catch((e) => { console.log("Error al conectar la base de datos" + e) })
-        app.listen( process.env.PORT || 4000 , () => {
-            console.log('listen port 4000')
+        app.listen( process.env.PORT || 8080 , () => {
+            console.log('listen port 8080')
         })
     } catch (error) {
         console.log('Error inicial |' + error)        
